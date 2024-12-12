@@ -1,0 +1,42 @@
+<div class="container">
+    <h1>Découvrir Nos Annonces</h1>
+
+    <!-- Formulaire de filtrage -->
+    <form method="get" action="/" class="mb-4">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="prixMin">Prix minimum (€)</label>
+                <input type="number" id="prixMin" name="prixMin" class="form-control" 
+                       th:value="${param.prixMin}">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="prixMax">Prix maximum (€)</label>
+                <input type="number" id="prixMax" name="prixMax" class="form-control" 
+                       th:value="${param.prixMax}">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="localisation">Localisation</label>
+                <input type="text" id="localisation" name="localisation" class="form-control" 
+                       th:value="${param.localisation}">
+            </div>
+            <div class="form-group col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Annonces -->
+    <div class="annonces-container">
+        <div th:each="annonce : ${annonces}" class="annonce">
+            <img th:src="@{/images/{photo}(photo=${annonce.photoUrl})}" alt="Photo de l'annonce" class="annonce-photo">
+            <h2 th:text="${annonce.titre}" class="annonce-titre"></h2>
+            <p th:text="${annonce.description}" class="annonce-description"></p>
+            <p class="annonce-prix">
+                <span th:text="${annonce.prix}"></span> €
+            </p>
+            <p class="annonce-localisation">
+                <span th:text="${annonce.localisation}"></span>
+            </p>
+        </div>
+    </div>
+</div>

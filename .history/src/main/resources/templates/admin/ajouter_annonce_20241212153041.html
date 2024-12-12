@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Annonce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn {
+            border-radius: 20px;
+        }
+        .form-check-label {
+            margin-left: 10px;
+        }
+        .custom-file-label::after {
+            content: "Parcourir";
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+            Accueil
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/annonces">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2>Ajouter une Annonce</h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/admin/annonces/ajouter}" th:object="${annonce}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="bien">Type de Bien :</label>
+                        <select id="bien" name="bien" class="form-control" th:field="*{bien}">
+                            <option th:each="bien : ${biens}" th:value="${bien.id}" th:text="${bien.type}"></option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="titre">Titre</label>
+                            <input type="text" id="titre" class="form-control" th:field="*{titre}" required />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="prix">Prix</label>
+                            <input type="number" id="prix" class="form-control" th:field="*{prix}" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" class="form-control" th:field="*{description}" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="localisation">Localisation</label>
+                        <input type="text" id="localisation" class="form-control" th:field="*{localisation}" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="superficie">Superficie en m²</label>
+                            <input type="number" id="superficie" class="form-control" th:field="*{superficie}" required />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nombrePieces">Nombre de Pièces</label>
+                            <input type="number" id="nombrePieces" class="form-control" th:field="*{nombrePieces}" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie</label><br>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="categorie" id="vente" value="Vente" autocomplete="off"> Vente
+                            </label>
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="categorie" id="location" value="Location" autocomplete="off"> Location
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label mt-4" for="file">Photo</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" name="photo" accept="image/*">
+                            <label class="custom-file-label" for="file">Choisir un fichier...</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Contact</label>
+                        <input type="text" id="contact" class="form-control" th:field="*{contact}" required />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg">Ajouter</button>
+                    <a href="/admin/annonces" class="btn btn-secondary btn-lg">Annuler</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
