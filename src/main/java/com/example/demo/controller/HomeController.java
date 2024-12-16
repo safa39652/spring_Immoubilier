@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,16 +25,23 @@ public class HomeController {
             @RequestParam(value = "prixMin", required = false) Double prixMin,
             @RequestParam(value = "prixMax", required = false) Double prixMax,
             @RequestParam(value = "localisation", required = false) String localisation,
+            @RequestParam(value = "categorie", required = false) String categorie,
+            @RequestParam(value = "typeAnnonce", required = false) String typeAnnonce,
             Model model) {
     
         System.out.println("Prix Min: " + prixMin);
         System.out.println("Prix Max: " + prixMax);
         System.out.println("Localisation: " + localisation);
+        System.out.println("Catégorie: " + categorie);
+        System.out.println("Type Annonce: " + typeAnnonce);
     
         List<Annonce> annonces = annonceRepository.findAll().stream()
                 .filter(a -> (prixMin == null || a.getPrix() >= prixMin))
                 .filter(a -> (prixMax == null || a.getPrix() <= prixMax))
                 .filter(a -> (localisation == null || a.getLocalisation().toLowerCase().contains(localisation.toLowerCase())))
+               
+
+
                 .collect(Collectors.toList());
     
         model.addAttribute("annonces", annonces);

@@ -24,6 +24,7 @@ public class Annonce {
     private String photoUrl;
     private String contact;
 
+
     public String getContact() {
         return contact;
     }
@@ -119,4 +120,5 @@ public class Annonce {
     public void setBien(Bien bien) {
         this.bien = bien;
     }
+    
 }

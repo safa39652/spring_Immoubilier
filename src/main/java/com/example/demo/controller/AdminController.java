@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.Annonce;
 import com.example.demo.repository.AnnonceRepository;
 import com.example.demo.repository.BienRepository;
-
-import jakarta.servlet.ServletContext;
+import com.example.demo.service.AnnonceService;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,13 +33,25 @@ public class AdminController {
     private BienRepository bienRepository;
 
     @Autowired
-    private ServletContext context;
+    private AnnonceService annonceService;
+  
 
     @GetMapping("/annonces")
-    public String listerAnnonces(Model model) {
-        model.addAttribute("annonces", annonceRepository.findAll());
+    public String listerAnnonces(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "4") int size,
+                                 Model model) {
+        Page<Annonce> annoncesPage = annonceService.getAllAnnoncePagination(page, size);
+        model.addAttribute("annonces", annoncesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", annoncesPage.getTotalPages());
         return "admin/liste_annonces";
     }
+       @GetMapping("/annonces/all")
+    public String listerToutesLesAnnonces(Model model) {
+        model.addAttribute("annonces", annonceRepository.findAll());
+        return "admin/liste_toutes_annonces";
+    }
+
 
     @GetMapping("/annonces/ajouter")
     public String afficherFormAjout(Model model) {
